@@ -7,17 +7,16 @@ import {
 } from "react-native-gesture-handler";
 import { GLView } from "expo-gl";
 import { Renderer, THREE } from "expo-three";
-import { RotatingCube } from "../../App";
 import {
   createPanGesture,
   createTapGesture,
   setupScene,
-  createBoxes,
-  updateRotatingCubes,
+  RotatingCube,
 } from "../components/camFuntions";
+import { createBoxes, updateRotatingCubes } from "../components/cubeFuntions";
+import { useBear } from "../context/context";
 
 const HomeScreen = () => {
-  const [total, setTotal] = useState(0);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const clickableObjectsRef = useRef<THREE.Object3D[]>([]);
   const rotatingCubesRef = useRef<RotatingCube[]>([]);
@@ -26,17 +25,18 @@ const HomeScreen = () => {
   const tapGesture = createTapGesture(
     cameraRef,
     clickableObjectsRef,
-    rotatingCubesRef,
-    setTotal,
-    total
+    rotatingCubesRef
   );
   const combinedGesture = Gesture.Race(tapGesture, panGesture);
+
+  const numeroClicks = useBear((state) => state.bears);
 
   return (
     <GestureHandlerRootView>
       <View style={styles.container}>
         <Text style={{ fontSize: 18, textAlign: "center", marginTop: 40 }}>
-          Toca un cubo para girarlo o arrastra para mover la cámara: {total}
+          Toca un cubo para girarlo o arrastra para mover la cámara:
+          {numeroClicks}
         </Text>
         <StatusBar barStyle="dark-content" />
       </View>
