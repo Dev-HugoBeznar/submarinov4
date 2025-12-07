@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { use } from "react";
 import { useGridSize } from "../context/context";
+import { Button } from "react-native";
 const ConfigScreen = () => {
   const size = useGridSize((state) => state.size);
   const updateSize = useGridSize((state) => state.updateSize);
@@ -21,6 +22,12 @@ const ConfigScreen = () => {
         keyboardType="numeric"
         placeholder="Escribe un número"
       />
+      <View style={{ height: 20 }} />
+      <Button title="facil" onPress={() => updateSize(5)} />
+      <View style={{ height: 20 }} />
+      <Button title="medio" onPress={() => updateSize(10)} />
+      <View style={{ height: 20 }} />
+      <Button title="dificil" onPress={() => updateSize(15)} />
     </View>
   );
 };
