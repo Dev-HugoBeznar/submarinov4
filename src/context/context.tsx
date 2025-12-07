@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-// Define the shape of the layout state
+//esto va a ser para el clicar en los cubos
 export interface LayoutState {
   x: number;
   y: number;
@@ -13,8 +13,18 @@ interface LayoutStore {
   setLayout: (newLayout: LayoutState) => void;
 }
 
-// Create the store
 export const useLayoutStore = create<LayoutStore>((set) => ({
   layout: { x: 0, y: 0, width: 0, height: 0 },
   setLayout: (newLayout) => set({ layout: newLayout }),
+}));
+
+//este estado es para el tamaño del tablero
+interface grideState {
+  size: number;
+  updateSize: (newSize: number) => void;
+}
+
+export const useGridSize = create<grideState>((set) => ({
+  size: 10,
+  updateSize: (newSize) => set({ size: newSize }),
 }));

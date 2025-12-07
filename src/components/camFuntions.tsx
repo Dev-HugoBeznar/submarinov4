@@ -7,6 +7,7 @@ import {
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import { useLayoutStore } from "../context/context";
+import { Vibration } from "react-native";
 
 export interface RotatingCube {
   object: THREE.Object3D;
@@ -28,6 +29,10 @@ export const createPanGesture = (
   );
 };
 
+//esta funcion es puro spagetti code, pero funciona y sinceramente me avergüenza un
+//poco la cantidad de teimpo que le he puesto solo a que clique el raton donde tiene que clicar
+//pero si funciona no se toca, si no se entiende se admite
+//PROGRAMAR ES MI PASION
 export const createTapGesture = (
   cameraRef: React.MutableRefObject<THREE.PerspectiveCamera | null>,
   clickableObjectsRef: React.MutableRefObject<THREE.Object3D[]>,
@@ -54,6 +59,7 @@ export const createTapGesture = (
         true
       );
       if (intersects.length > 0) {
+        Vibration.vibrate(100);
         const firstIntersectedObject = intersects[0].object;
         firstIntersectedObject.material.color.set(0xff0000);
         rotatingCubesRef.current.push({

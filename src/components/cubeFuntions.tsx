@@ -1,12 +1,15 @@
 import { THREE } from "expo-three";
 import { RotatingCube } from "./camFuntions";
+import { useGridSize } from "../context/context";
 
 export const createBoxes = (
   scene: THREE.Scene,
   clickableObjectsRef: React.MutableRefObject<THREE.Object3D[]>
 ) => {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  const size = useGridSize.getState().size;
+
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
       const boxGeometry = new THREE.BoxGeometry(50, 50, 50);
       const MeshBasicMaterial = new THREE.MeshBasicMaterial({
         color: "blue",
