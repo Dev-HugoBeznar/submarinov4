@@ -44,9 +44,6 @@ export const createTapGesture = (
       if (!camera) return;
       const x = (viewx / layout.width) * 2 - 1;
       const y = -(viewy / layout.height) * 2 + 1;
-      console.log("Tap en:", x, y);
-      console.log("Layout:", layout);
-      console.log("View coords:", viewx, viewy);
 
       const pointerVector = new THREE.Vector2(x, y);
       const raycaster = new THREE.Raycaster();
