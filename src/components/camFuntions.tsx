@@ -6,7 +6,7 @@ import {
   PanGestureHandlerEventPayload,
   TapGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
-import { useBear } from "../context/context";
+import { useLayoutStore } from "../context/context";
 
 export interface RotatingCube {
   object: THREE.Object3D;
@@ -36,9 +36,17 @@ export const createTapGesture = (
   return Gesture.Tap().onEnd(
     (event: GestureUpdateEvent<TapGestureHandlerEventPayload>) => {
       const camera = cameraRef.current;
+      const layout = useLayoutStore.getState().layout;
       const { absoluteX, absoluteY } = event;
-      const x = (absoluteX / window.innerWidth) * 2 - 1;
-      const y = -(absoluteY / window.innerHeight) * 2 + 1;
+
+      const viewx = absoluteX - layout.x;
+      const viewy = absoluteY - layout.y;
+      if (!camera) return;
+      const x = (viewx / layout.width) * 2 - 1;
+      const y = -(viewy / layout.height) * 2 + 1;
+      console.log("Tap en:", x, y);
+      console.log("Layout:", layout);
+      console.log("View coords:", viewx, viewy);
 
       const pointerVector = new THREE.Vector2(x, y);
       const raycaster = new THREE.Raycaster();
@@ -49,7 +57,6 @@ export const createTapGesture = (
         true
       );
       if (intersects.length > 0) {
-        useBear.getState().increasePopulation();
         const firstIntersectedObject = intersects[0].object;
         firstIntersectedObject.material.color.set(0xff0000);
         rotatingCubesRef.current.push({

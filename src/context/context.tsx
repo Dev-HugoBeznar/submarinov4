@@ -1,14 +1,20 @@
 import { create } from "zustand";
 
-type BearState = {
-  bears: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
-  updateBears: (newBears: number) => void;
-};
-export const useBear = create<BearState>((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
-  updateBears: (newBears) => set({ bears: newBears }),
+// Define the shape of the layout state
+export interface LayoutState {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+interface LayoutStore {
+  layout: LayoutState;
+  setLayout: (newLayout: LayoutState) => void;
+}
+
+// Create the store
+export const useLayoutStore = create<LayoutStore>((set) => ({
+  layout: { x: 0, y: 0, width: 0, height: 0 },
+  setLayout: (newLayout) => set({ layout: newLayout }),
 }));
